@@ -12,23 +12,32 @@ namespace DiscourseAPI
     {
         static void Main(string[] args)
         {
-            
+         
+            //Create a StreamWriter for our CSV file
             using (StreamWriter sw = new StreamWriter(@"C:\Users\jose\AppData\Local\Temp\posts.csv"))
             {
                 StringWriter sww = new StringWriter();
+                //Write headers
                 sw.WriteLine("ID,TITLE,VOTES,LIKES,POSTS,VIEWS,DESCRIPTION,URL");
                 int i = 0;
+                //Get 30 topics in the selected category
                 var catTopics = Newtonsoft.Json.JsonConvert.DeserializeObject<CategoryTopics>(GetRequests(i));
                 do
                 {
+                    //Loop through each topic and extract specifics
                     foreach (var x in catTopics.topic_list.topics)
                     {
+                        //Get topic details from the API
                         var topicResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<TopicResponse>(GetTopic(x.id.Value));
+                        //Write to a String Writer
                         sww.WriteLine($"{x.id},\"{x.title}\",{x.vote_count},{x.like_count},{x.posts_count},{x.views}, \"{topicResponse.post_stream.posts[0].cooked.Replace("<p>", "").Replace("</p>", "").Replace("\r", "").Replace("\n", "").Replace("\"","'").Replace(",","<comma>")}\",\"{topicResponse.post_stream.posts[0].username}\" , https://e10help.com/t/{topicResponse.slug}/{topicResponse.id}");
                     }
+                    //Get the next 30 topics
                     catTopics = Newtonsoft.Json.JsonConvert.DeserializeObject<CategoryTopics>(GetRequests(++i));
                 }
                 while (catTopics.topic_list.topics.Count() > 0);
+
+                //Write to File
                 sw.Write(sww.ToString());
             }
         }
