@@ -46,7 +46,7 @@ namespace DiscourseAPI
         {
             var client = new RestClient($"https://e10help.com/c/16.json?page={page}");
             var request = new RestRequest(Method.GET);
-            request.AddHeader("postman-token", "45526d76-9b20-6e4e-0a33-1a5884ba43c0");
+            
             request.AddHeader("cache-control", "no-cache");
             IRestResponse response = client.Execute(request);
             return response.Content;
@@ -56,7 +56,7 @@ namespace DiscourseAPI
         {
             var client = new RestClient($"https://e10help.com/t/{topicID}.json");
             var request = new RestRequest(Method.GET);
-            request.AddHeader("postman-token", "3f5dc0b7-3385-1cc0-f7da-4a38b3b0c45c");
+            
             request.AddHeader("cache-control", "no-cache");
             IRestResponse response = client.Execute(request);
             return response.Content;
