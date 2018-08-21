@@ -10,6 +10,10 @@ namespace DiscourseAPI
 {
     class Program
     {
+        /*
+         * This code is specific to our forum but could be easily modified 
+         * to extract data from any discourse site
+         * */
         static void Main(string[] args)
         {
          
